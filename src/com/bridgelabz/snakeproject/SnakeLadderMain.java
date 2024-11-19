@@ -65,9 +65,14 @@ public class SnakeLadderMain {
                 playerPosition = ladders[playerPosition];
             }
 
+            if (playerPosition < 0) {
+                playerPosition = 0;  // Restart from 0 if player position is below 0
+            }
+
             System.out.println("You are now at position: " + playerPosition);
         }
 
         System.out.println("Congratulations! You've reached the end!");
     }
 }
+
