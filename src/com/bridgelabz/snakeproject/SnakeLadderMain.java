@@ -7,6 +7,7 @@ public class SnakeLadderMain {
         System.out.println("Welcome to Snake Ladder project");
 
         int playerPosition = 0;
+        int diceRollCount = 0;
         int[] snakes = new int[101];
         int[] ladders = new int[101];
 
@@ -34,28 +35,31 @@ public class SnakeLadderMain {
 
         Random dice = new Random();
 
-        while (playerPosition < 100) {
-            int roll = (int) (Math.random() * 6) + 1;
-            System.out.println("You rolled a " + roll);
+        System.out.println("Starting the game!");
 
-            int option = (int) (Math.random() * 3);  // Generates a number between 0 and 2
-            System.out.println("Option: " + option); // 0: No Play, 1: Ladder, 2: Snake
+        while (playerPosition < 100) {
+            diceRollCount++;
+            int roll = dice.nextInt(6) + 1;
+            System.out.println("\nRoll " + diceRollCount + ": You rolled a " + roll);
+
+            int option = dice.nextInt(3);
+            System.out.println("Option: " + (option == 0 ? "No Play" : option == 1 ? "Ladder" : "Snake"));
 
             if (option == 0) {
-                System.out.println("No Play! You stay at the same position.");
+                System.out.println("No Play! You stay at position " + playerPosition);
             } else if (option == 1) {
                 if (playerPosition + roll <= 100) {
                     playerPosition += roll;
-                    System.out.println("You landed on a ladder! You move ahead to position " + playerPosition);
+                    System.out.println("You landed on a ladder! Moving to position " + playerPosition);
                 } else {
-                    System.out.println("You rolled too high! Stay at the same position.");
+                    System.out.println("Roll too high! Stay at position " + playerPosition);
                 }
             } else if (option == 2) {
                 playerPosition -= roll;
                 if (playerPosition < 0) {
                     playerPosition = 0;
                 }
-                System.out.println("You landed on a snake! You move back to position " + playerPosition);
+                System.out.println("You landed on a snake! Moving back to position " + playerPosition);
             }
 
             if (snakes[playerPosition] != 0) {
@@ -66,13 +70,9 @@ public class SnakeLadderMain {
                 playerPosition = ladders[playerPosition];
             }
 
-            if (playerPosition < 0) {
-                playerPosition = 0;  // Restart from 0 if player position is below 0
-            }
-
-            System.out.println("You are now at position: " + playerPosition);
+            System.out.println("Current position after roll " + diceRollCount + ": " + playerPosition);
         }
 
-        System.out.println("Congratulations! You've reached the end!");
+        System.out.println("\nCongratulations! You've reached the end in " + diceRollCount + " rolls!");
     }
 }
