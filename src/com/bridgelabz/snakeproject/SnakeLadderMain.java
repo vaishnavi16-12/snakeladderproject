@@ -37,20 +37,32 @@ public class SnakeLadderMain {
         while (playerPosition < 100) {
             int roll = (int) (Math.random() * 6) + 1;
             System.out.println("You rolled a " + roll);
-            playerPosition += roll;
 
-            if (playerPosition > 100) {
-                playerPosition = 100;
+            int option = (int) (Math.random() * 3);  // Generates a number between 0 and 2
+            System.out.println("Option: " + option); // 0: No Play, 1: Ladder, 2: Snake
+
+            if (option == 0) {
+                System.out.println("No Play! You stay at the same position.");
+            } else if (option == 1) {
+                playerPosition += roll;
+                if (playerPosition > 100) {
+                    playerPosition = 100;
+                }
+                System.out.println("You landed on a ladder! You move ahead to position " + playerPosition);
+            } else if (option == 2) {
+                playerPosition -= roll;
+                if (playerPosition < 0) {
+                    playerPosition = 0;
+                }
+                System.out.println("You landed on a snake! You move back to position " + playerPosition);
             }
 
-            if (playerPosition <= 100) {
-                if (snakes[playerPosition] != 0) {
-                    System.out.println("Oops! You landed on a snake! Moving to position " + snakes[playerPosition]);
-                    playerPosition = snakes[playerPosition];
-                } else if (ladders[playerPosition] != 0) {
-                    System.out.println("Great! You landed on a ladder! Climbing to position " + ladders[playerPosition]);
-                    playerPosition = ladders[playerPosition];
-                }
+            if (snakes[playerPosition] != 0) {
+                System.out.println("Oops! You landed on a snake! Moving to position " + snakes[playerPosition]);
+                playerPosition = snakes[playerPosition];
+            } else if (ladders[playerPosition] != 0) {
+                System.out.println("Great! You landed on a ladder! Climbing to position " + ladders[playerPosition]);
+                playerPosition = ladders[playerPosition];
             }
 
             System.out.println("You are now at position: " + playerPosition);
@@ -59,5 +71,3 @@ public class SnakeLadderMain {
         System.out.println("Congratulations! You've reached the end!");
     }
 }
-
-
