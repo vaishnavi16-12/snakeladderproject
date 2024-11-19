@@ -44,11 +44,12 @@ public class SnakeLadderMain {
             if (option == 0) {
                 System.out.println("No Play! You stay at the same position.");
             } else if (option == 1) {
-                playerPosition += roll;
-                if (playerPosition > 100) {
-                    playerPosition = 100;
+                if (playerPosition + roll <= 100) {
+                    playerPosition += roll;
+                    System.out.println("You landed on a ladder! You move ahead to position " + playerPosition);
+                } else {
+                    System.out.println("You rolled too high! Stay at the same position.");
                 }
-                System.out.println("You landed on a ladder! You move ahead to position " + playerPosition);
             } else if (option == 2) {
                 playerPosition -= roll;
                 if (playerPosition < 0) {
@@ -75,4 +76,3 @@ public class SnakeLadderMain {
         System.out.println("Congratulations! You've reached the end!");
     }
 }
-
