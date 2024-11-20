@@ -6,73 +6,55 @@ public class SnakeLadderMain {
     public static void main(String[] args) {
         System.out.println("Welcome to Snake Ladder project");
 
-        int playerPosition = 0;
-        int diceRollCount = 0;
-        int[] snakes = new int[101];
-        int[] ladders = new int[101];
+        int player1Position = 0, player2Position = 0;
+        Random dice =
+         new Random();
+        boolean isPlayer1Turn = true;
 
-        snakes[16] = 6;
-        snakes[47] = 26;
-        snakes[49] = 11;
-        snakes[56] = 53;
-        snakes[62] = 19;
-        snakes[64] = 60;
-        snakes[87] = 24;
-        snakes[93] = 73;
-        snakes[95] = 75;
-        snakes[98] = 78;
+        int[] snakes = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int[] ladders = {0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 67, 0, 0, 0, 0, 0, 0, 0, 91, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-        ladders[2] = 38;
-        ladders[7] = 29;
-        ladders[8] = 31;
-        ladders[15] = 26;
-        ladders[21] = 42;
-        ladders[28] = 84;
-        ladders[36] = 44;
-        ladders[51] = 67;
-        ladders[71] = 91;
-        ladders[80] = 100;
-
-        Random dice = new Random();
-
-        System.out.println("Starting the game!");
-
-        while (playerPosition < 100) {
-            diceRollCount++;
+        while (player1Position < 100 && player2Position < 100) {
             int roll = dice.nextInt(6) + 1;
-            System.out.println("\nRoll " + diceRollCount + ": You rolled a " + roll);
+            System.out.println((isPlayer1Turn ? "Player 1" : "Player 2") + " rolled a " + roll);
 
-            int option = dice.nextInt(3);
-            System.out.println("Option: " + (option == 0 ? "No Play" : option == 1 ? "Ladder" : "Snake"));
+            if (isPlayer1Turn) {
+                player1Position += roll;
+                if (player1Position > 100) player1Position = 100;
 
-            if (option == 0) {
-                System.out.println("No Play! You stay at position " + playerPosition);
-            } else if (option == 1) {
-                if (playerPosition + roll <= 100) {
-                    playerPosition += roll;
-                    System.out.println("You landed on a ladder! Moving to position " + playerPosition);
-                } else {
-                    System.out.println("Roll too high! Stay at position " + playerPosition);
+                if (snakes[player1Position] != 0) {
+                    System.out.println("Player 1 landed on a snake! Moving to position " + snakes[player1Position]);
+                    player1Position = snakes[player1Position];
+                } else if (ladders[player1Position] != 0) {
+                    System.out.println("Player 1 landed on a ladder! Climbing to position " + ladders[player1Position]);
+                    player1Position = ladders[player1Position];
+                    continue;
                 }
-            } else if (option == 2) {
-                playerPosition -= roll;
-                if (playerPosition < 0) {
-                    playerPosition = 0;
+
+                System.out.println("Player 1 is now at position: " + player1Position);
+            } else {
+                player2Position += roll;
+                if (player2Position > 100) player2Position = 100;
+
+                if (snakes[player2Position] != 0) {
+                    System.out.println("Player 2 landed on a snake! Moving to position " + snakes[player2Position]);
+                    player2Position = snakes[player2Position];
+                } else if (ladders[player2Position] != 0) {
+                    System.out.println("Player 2 landed on a ladder! Climbing to position " + ladders[player2Position]);
+                    player2Position = ladders[player2Position];
+                    continue;
                 }
-                System.out.println("You landed on a snake! Moving back to position " + playerPosition);
+
+                System.out.println("Player 2 is now at position: " + player2Position);
             }
 
-            if (snakes[playerPosition] != 0) {
-                System.out.println("Oops! You landed on a snake! Moving to position " + snakes[playerPosition]);
-                playerPosition = snakes[playerPosition];
-            } else if (ladders[playerPosition] != 0) {
-                System.out.println("Great! You landed on a ladder! Climbing to position " + ladders[playerPosition]);
-                playerPosition = ladders[playerPosition];
-            }
-
-            System.out.println("Current position after roll " + diceRollCount + ": " + playerPosition);
+            isPlayer1Turn = !isPlayer1Turn;
         }
 
-        System.out.println("\nCongratulations! You've reached the end in " + diceRollCount + " rolls!");
+        if (player1Position == 100) {
+            System.out.println("Congratulations! Player 1 won the game!");
+        } else {
+            System.out.println("Congratulations! Player 2 won the game!");
+        }
     }
 }
